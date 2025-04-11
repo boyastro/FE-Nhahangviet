@@ -19,7 +19,7 @@ const Footer = () => {
 
                         {/* ------- Footer Info ------- */}
                         <li>
-                            Tinh hoa ẩm thực việt.
+                            Tinh hoa ẩm thực việt vào trong từng món ăn
                         </li>
 
                         {/* ------- All Social Links ------- */}
