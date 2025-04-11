@@ -33,8 +33,8 @@ const Auth = () => {
     return (
         <>
             {/* ============== Auth Section ============== */}
-            <section className='flex justify-center items-start pt-10 min-h-screen bg-gray-100'>
-                <div className='w-[400px] bg-white p-8 rounded-2xl shadow-xl'>
+            <section className='flex justify-center items-start pt-20 min-h-screen bg-white'>
+                <div className='w-[400px] bg-white p-8 rounded-2xl shadow-[0_8px_30px_rgba(0,0,0,0.3)]'>
 
                     {/* ============== Login Form ============== */}
                     {form === 'login' && (
