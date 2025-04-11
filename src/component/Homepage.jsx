@@ -40,7 +40,7 @@ const Homepage = () => {
                         <li className='p-4 bg-[#e0e0e0] text-black text-[25px] rounded-full'><FiCoffee /></li>
                         <li className='font-DM_sans font-bold text-2xl leading-[30px]'>Bữa Sáng</li>
                         <li className='font-DM_sans font-normal text-base leading-6'>Các món ngon dành cho ăn sáng đậm vị.</li>
-                        <li className='font-DM_sans font-bold text-base leading-6 text-[#AD343E]'>Khám phá</li>
+                        <button className='px-4 py-1 border-2 rounded-full border-[#AD343E] font-DM_sans font-bold text-[#AD343E] hover:text-white hover:bg-[#AD343E] hover:border-white duration-300'>Khám phá</button>
                     </ul>
 
                     {/* ----- dishes part ----- */}
@@ -48,15 +48,15 @@ const Homepage = () => {
                         <li className='p-4 bg-[#e0e0e0] text-black text-[25px] rounded-full'><BiBowlRice /></li>
                         <li className='font-DM_sans font-bold text-2xl leading-[30px]'>Bữa Trưa</li>
                         <li className='font-DM_sans font-normal text-base leading-6'>Các món ngon dành cho bữa trưa đậm vị.</li>
-                        <li className='font-DM_sans font-bold text-base leading-6 text-[#AD343E]'>Khám phá</li>
+                        <button className='px-4 py-1 border-2 rounded-full border-[#AD343E] font-DM_sans font-bold text-[#AD343E] hover:text-white hover:bg-[#AD343E] hover:border-white duration-300'>Khám phá</button>
                     </ul>
 
                     {/* ----- drinks part ----- */}
                     <ul className='w-[305px] p-9 flex flex-col items-center gap-6 border-2 rounded-lg text-center'>
                         <li className='p-4 bg-[#e0e0e0] text-black text-[25px] rounded-full'><LuGlassWater /></li>
                         <li className='font-DM_sans font-bold text-2xl leading-[30px]'>Đồ Uống</li>
-                        <li className='font-DM_sans font-normal text-base leading-6'>Các thức uống ngon thơm mát.</li>
-                        <li className='font-DM_sans font-bold text-base leading-6 text-[#AD343E]'>Khám phá</li>
+                        <li className='font-DM_sans font-normal text-base leading-6'>Các thức uống ngon thơm mát từ ba miền</li>
+                        <button className='px-4 py-1 border-2 rounded-full border-[#AD343E] font-DM_sans font-bold text-[#AD343E] hover:text-white hover:bg-[#AD343E] hover:border-white duration-300'>Khám phá</button>
                     </ul>
 
                     {/* ----- dessert part ----- */}
@@ -64,7 +64,7 @@ const Homepage = () => {
                         <li className='p-4 bg-[#e0e0e0] text-black text-[25px] rounded-full'><GiCakeSlice /></li>
                         <li className='font-DM_sans font-bold text-2xl leading-[30px]'>Tráng Miệng</li>
                         <li className='font-DM_sans font-normal text-base leading-6'>Các loại thức bánh và tráng miệng thơm ngon.</li>
-                        <li className='font-DM_sans font-bold text-base leading-6 text-[#AD343E]'>Khám phá</li>
+                        <button className='px-4 py-1 border-2 rounded-full border-[#AD343E] font-DM_sans font-bold text-[#AD343E] hover:text-white hover:bg-[#AD343E] hover:border-white duration-300'>Khám phá</button>
                     </ul>
                 </object>
             </section>
