@@ -45,6 +45,7 @@ const Navbar = () => {
                             <Link to = "/about"   className='py-1 px-4 hover:bg-[#DBDFD0] transition duration-400 rounded-2xl'>Giới thiệu</Link>
                             <Link to = "/manu"    className='py-1 px-4 hover:bg-[#DBDFD0] transition duration-400 rounded-2xl'>Thực đơn</Link>
                             <Link to = "/contact" className='py-1 px-4 hover:bg-[#DBDFD0] rounded-2xl'>Liên hệ</Link>
+                            <Link to = "/login" className='py-1 px-4 hover:bg-[#DBDFD0] rounded-2xl'>Tài Khoản</Link>
                         </ul>
 
                         {/* ---------- For Book Table ---------- */}
