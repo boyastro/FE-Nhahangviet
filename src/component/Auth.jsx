@@ -9,19 +9,58 @@ const Auth = () => {
 
     // ==================== All Functions
     // -------- handle login
-    const handleLogin = (e) => {
+    const handleLogin = async (e) => {
         e.preventDefault()
-        // Add login logic here
-        setIsLoggedIn(true)
-        setForm('logout')
+        const username = e.target[0].value
+        const password = e.target[1].value
+
+        try {
+            const res = await fetch('http://localhost:5000/api/auth/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, password })
+            })
+
+            const data = await res.json()
+
+            if (res.ok) {
+                alert(data.msg)
+                setIsLoggedIn(true)
+                setForm('logout')
+            } else {
+                alert(data.msg)
+            }
+        } catch (error) {
+            alert('Lỗi kết nối tới server')
+        }
     }
 
     // -------- handle signup
-    const handleSignup = (e) => {
+    const handleSignup = async (e) => {
         e.preventDefault()
-        // Add signup logic here
-        setIsLoggedIn(true)
-        setForm('logout')
+        const username = e.target[0].value
+        const email    = e.target[1].value
+        const password = e.target[2].value
+
+        try {
+            const res = await fetch('http://localhost:5000/api/auth/signup', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, email, password })
+            })
+
+            const data = await res.json()
+
+            if (res.ok) {
+                alert(data.msg)
+                setIsLoggedIn(true)
+                setForm('logout')
+            } else {
+                alert(data.msg)
+            }
+        } catch (error) {
+            alert('Lỗi kết nối tới server')
+        }
     }
 
     // -------- handle logout
@@ -63,7 +102,7 @@ const Auth = () => {
                     {form === 'logout' && isLoggedIn && (
                         <div className='flex flex-col gap-6 items-center'>
                             <h2 className='text-2xl font-bold text-[#2C2F24]'>Chào mừng bạn!</h2>
-                            <button onClick={handleLogout} className='bg-gray-800 text-white px-6 py-2 rounded-full hover:bg-gray-600 active:scale-95 duration-200'>Đăng xuất</button>
+                            <button onClick={handleLogout} className='bg-[#AD343E] text-white px-6 py-2 rounded-full hover:bg-gray-600 active:scale-95 duration-200'>Đăng xuất</button>
                         </div>
                     )}
 
