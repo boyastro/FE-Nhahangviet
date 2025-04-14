@@ -1,39 +1,66 @@
 // ==================== All Import
+import React, { useEffect, useState } from 'react'
 import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from "react-router-dom"
 import Homepage from "./component/Homepage"
 import Contact from "./component/Contact"
-import Login from "./component/Auth"
+import Auth from "./component/Auth"
 import Book from "./component/Book"
 import Blog from "./component/Blog"
 import Manu from "./component/Manu"
 import Blog_burger_details from "./component/Blog_burger_details"
 import About from "./component/About"
 import LayoutOne from "./Layout/LayoutOne"
+import AdminDashboard from './component/AdminDashboard'
+import UserDashboard from './component/UserDashboard'
 
-function App() {
-
-  // ======================== All Routes
-  const food = createBrowserRouter(
-    createRoutesFromElements(
-      <Route>
-        <Route path="/" element={<LayoutOne />} >
-          <Route index element={<Homepage />} />
-          <Route path="/manu" element={<Manu />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/book" element={<Book />} />
-          <Route path="/blog" element={<Blog />} />
-          <Route path="/blog/burger_details" element={<Blog_burger_details />} />
-        </Route>
-
-      </Route>
-    )
+// ==================== All Routes
+const getRouter = (setIsLoggedIn, setRole) => createBrowserRouter(
+  createRoutesFromElements(
+    <Route path="/" element={<LayoutOne />} >
+      <Route index element={<Homepage />} />
+      <Route path="/manu" element={<Manu />} />
+      <Route path="/about" element={<About />} />
+      <Route path="/contact" element={<Contact />} />
+      <Route path="/login" element={<Auth setIsLoggedIn={setIsLoggedIn} setRole={setRole} />} />
+      <Route path="/book" element={<Book />} />
+      <Route path="/blog" element={<Blog />} />
+      <Route path="/blog/burger_details" element={<Blog_burger_details />} />
+    </Route>
   )
+)
+
+const App = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [role, setRole] = useState('')
+
+  useEffect(() => {
+    const token = localStorage.getItem('token')
+    const storedRole = localStorage.getItem('role')
+    if (token && storedRole) {
+      setIsLoggedIn(true)
+      setRole(storedRole)
+    }
+  }, [])
+
+  // ==================== Handle Logout
+  const handleLogout = () => {
+    localStorage.removeItem('token')
+    localStorage.removeItem('role')
+    setIsLoggedIn(false)
+    setRole('')
+  }
+
+  if (isLoggedIn && role === 'admin') {
+    return <AdminDashboard onLogout={handleLogout} />
+  }
+
+  if (isLoggedIn && role === 'user') {
+    return <UserDashboard onLogout={handleLogout} />
+  }
 
   return (
     <>
-      <RouterProvider router={food} />
+      <RouterProvider router={getRouter(setIsLoggedIn, setRole)} />
     </>
   )
 }
