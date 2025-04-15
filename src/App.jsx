@@ -10,8 +10,8 @@ import Manu from "./component/Manu"
 import Blog_burger_details from "./component/Blog_burger_details"
 import About from "./component/About"
 import LayoutOne from "./Layout/LayoutOne"
-import AdminDashboard from './component/AdminDashboard'
-import UserDashboard from './component/UserDashboard'
+import AdminDashboard from './component/Admin/AdminDashboard'
+import UserDashboard from './component/User/UserDashboard'
 
 // ==================== All Routes
 const getRouter = (setIsLoggedIn, setRole) => createBrowserRouter(
