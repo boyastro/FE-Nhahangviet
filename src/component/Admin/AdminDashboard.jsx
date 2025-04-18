@@ -1,11 +1,17 @@
 // ==================== All Import
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import UserAdmin from './AdminUserManager'
 import MenuAdmin from './AdminMenuManager'
 
 // ==================== All Components
 const AdminDashboard = ({ onLogout }) => {
-  const [selectedSection, setSelectedSection] = useState('Quản Lý Người Dùng')
+  const [selectedSection, setSelectedSection] = useState(() => {
+    return localStorage.getItem('admin-section') || 'Quản Lý Người Dùng'
+  })
+
+  useEffect(() => {
+    localStorage.setItem('admin-section', selectedSection)
+  }, [selectedSection])
 
   const renderSection = () => {
     switch (selectedSection) {

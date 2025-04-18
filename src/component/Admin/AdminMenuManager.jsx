@@ -3,7 +3,7 @@ import axios from 'axios'
 
 const AdminMenuManager = () => {
   // ==================== All useStates
-  const [menuItems, setMenuItems] = useState([])  // Danh sách món ăn
+  const [menuItems, setMenuItems] = useState([])
   const [form, setForm] = useState({
     name: '',
     price: '',
@@ -11,14 +11,20 @@ const AdminMenuManager = () => {
     image: '',
     category: ''
   })
-  const [editId, setEditId] = useState(null)  // Lưu trữ id món cần chỉnh sửa
-  const [isModalOpen, setIsModalOpen] = useState(false)  // Điều khiển mở/đóng modal
+  const [editId, setEditId] = useState(null)
+  const [isModalOpen, setIsModalOpen] = useState(false)
+
+  // ==================== Helper: Format giá tiền
+  const formatPrice = (price) => {
+    if (!price) return ''
+    return Number(price).toLocaleString('vi-VN') + ' đ'
+  }
 
   // ==================== Fetch Menu Items from API
   const fetchMenu = async () => {
     try {
       const res = await axios.get('http://localhost:5000/api/menus')
-      setMenuItems(res.data)  // Set danh sách món ăn từ backend vào state
+      setMenuItems(res.data)
     } catch (err) {
       console.error('❌ Lỗi khi fetch menu:', err.message)
     }
@@ -26,7 +32,7 @@ const AdminMenuManager = () => {
 
   useEffect(() => {
     fetchMenu()
-  }, [])  // Chạy lại khi component load
+  }, [])
 
   // ==================== Handle Input Change
   const handleChange = (e) => {
@@ -39,16 +45,14 @@ const AdminMenuManager = () => {
     e.preventDefault()
     try {
       if (editId) {
-        // Cập nhật món ăn
         await axios.put(`http://localhost:5000/api/menus/${editId}`, form)
       } else {
-        // Thêm món ăn mới
         await axios.post('http://localhost:5000/api/menus', form)
       }
       setForm({ name: '', price: '', info: '', image: '', category: '' })
       setEditId(null)
-      setIsModalOpen(false)  // Đóng modal sau khi thêm/sửa
-      fetchMenu()  // Cập nhật lại danh sách sau khi thêm/sửa
+      setIsModalOpen(false)
+      fetchMenu()
     } catch (err) {
       console.error('❌ Lỗi khi lưu món:', err.message)
     }
@@ -63,19 +67,31 @@ const AdminMenuManager = () => {
       image: item.image,
       category: item.category
     })
-    setEditId(item._id)  // Set editId để biết món nào đang được chỉnh sửa
-    setIsModalOpen(true)  // Mở modal khi chỉnh sửa món ăn
+    setEditId(item._id)
+    setIsModalOpen(true)
   }
 
-  // ==================== Handle Open/Close Modal
+  // ==================== Handle Delete
+  const handleDelete = async (id) => {
+    if (window.confirm('Bạn có chắc chắn muốn xoá món này không?')) {
+      try {
+        await axios.delete(`http://localhost:5000/api/menus/${id}`)
+        fetchMenu()
+      } catch (err) {
+        console.error('❌ Lỗi khi xoá món:', err.message)
+      }
+    }
+  }
+
+  // ==================== Handle Modal
   const openModal = () => {
-    setForm({ name: '', price: '', info: '', image: '', category: '' })  // Reset form khi mở modal
+    setForm({ name: '', price: '', info: '', image: '', category: '' })
     setEditId(null)
-    setIsModalOpen(true)  // Mở modal
+    setIsModalOpen(true)
   }
 
   const closeModal = () => {
-    setIsModalOpen(false)  // Đóng modal
+    setIsModalOpen(false)
   }
 
   return (
@@ -91,14 +107,22 @@ const AdminMenuManager = () => {
               <img src={item.image} alt={item.name} className="w-full h-40 object-cover mb-2 rounded" />
               <h3 className="text-xl font-semibold">{item.name}</h3>
               <p>{item.info}</p>
-              <p className="font-bold text-red-600">{item.price}</p>
+              <p className="font-bold text-red-600">{formatPrice(item.price)}</p>
               <p className="italic text-gray-600">Loại: {item.category}</p>
-              <button
-                onClick={() => handleEdit(item)}
-                className="mt-2 bg-yellow-400 px-3 py-1 rounded"
-              >
-                Sửa
-              </button>
+              <div className="flex justify-between mt-2 space-x-2">
+                <button
+                  onClick={() => handleEdit(item)}
+                  className="bg-yellow-400 px-3 py-1 rounded text-white"
+                >
+                  Sửa
+                </button>
+                <button
+                  onClick={() => handleDelete(item._id)}
+                  className="bg-red-500 px-3 py-1 rounded text-white"
+                >
+                  Xoá
+                </button>
+              </div>
             </div>
           ))}
         </div>
@@ -119,7 +143,7 @@ const AdminMenuManager = () => {
               />
               <input
                 name="price"
-                placeholder="Giá"
+                placeholder="Giá (VD: 25000)"
                 value={form.price}
                 onChange={handleChange}
                 className="border p-2 w-full"
