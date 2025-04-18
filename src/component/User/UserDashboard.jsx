@@ -1,18 +1,27 @@
 // ==================== All Import
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import BookUser from './bookuser'
+import BookingHistory from './BookingHistory'
 import UserProfile from './UserProfile'
 
 // ==================== All Components
 const UserDashboard = ({ onLogout }) => {
-  const [selectedMenu, setSelectedMenu] = useState('Thông Tin Tài Khoản')
+  // Lấy trạng thái của selectedMenu từ localStorage khi trang tải lại
+  const [selectedMenu, setSelectedMenu] = useState(
+    localStorage.getItem('selectedMenu') || 'Thông Tin Tài Khoản'
+  )
+
+  // Cập nhật lại selectedMenu vào localStorage mỗi khi người dùng thay đổi menu
+  useEffect(() => {
+    localStorage.setItem('selectedMenu', selectedMenu)
+  }, [selectedMenu])
 
   const renderContent = () => {
     switch (selectedMenu) {
       case 'Đặt Bàn':
         return <BookUser />
       case 'Lịch Sử Mua Hàng':
-        return <p>Đây là danh sách các đơn hàng bạn đã mua.</p>
+        return <BookingHistory />
       case 'Thông Tin Tài Khoản':
         return <UserProfile />
       case 'Cập Nhật Thông Tin':
