@@ -1,6 +1,7 @@
 // ==================== All Import
 import React, { useState } from 'react'
 import UserAdmin from './AdminUserManager'
+import MenuAdmin from './AdminMenuManager'
 
 // ==================== All Components
 const AdminDashboard = ({ onLogout }) => {
@@ -11,7 +12,7 @@ const AdminDashboard = ({ onLogout }) => {
       case 'Quản Lý Người Dùng':
         return <UserAdmin />
       case 'Quản Lý Menu':
-        return <p>Thêm, sửa, xóa món ăn/menu ở đây.</p>
+        return <MenuAdmin />
       case 'Quản Lý Blog':
         return <p>Viết bài, sửa/xóa bài viết blog tại đây.</p>
       case 'Quản Lý Đặt Bàn':
