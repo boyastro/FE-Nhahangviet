@@ -68,8 +68,6 @@ const BookingHistory = () => {
 
   return (
     <div className="max-w-4xl mx-auto p-4">
-      <h2 className="text-3xl font-bold text-center mb-8">🧾 Lịch sử Đặt Bàn</h2>
-
       {bookings.length > 0 ? (
         bookings.map((booking) => (
           <div
@@ -102,22 +100,23 @@ const BookingHistory = () => {
             </div>
 
             {booking.selectedDishes?.length > 0 && (
-              <div>
-                <h4 className="text-lg font-semibold text-gray-800 mb-3">🍽️ Món ăn đã chọn:</h4>
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-                  {booking.selectedDishes.map((dish) => (
-                    <div key={dish._id} className="flex flex-col items-center text-center border p-2 rounded-lg bg-gray-50 hover:bg-gray-100 transition">
-                      <img
-                        src={dish.image || 'https://via.placeholder.com/100'}
-                        alt={dish.name}
-                        className="w-20 h-20 object-cover rounded-full mb-2"
-                      />
-                      <p className="text-sm font-medium">{dish.name}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
+  <div>
+    <h4 className="text-lg font-semibold text-gray-800 mb-3">🍽️ Món ăn đã chọn:</h4>
+    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+      {booking.selectedDishes.map((dishItem, index) => (
+        <div key={index} className="flex flex-col items-center text-center border p-2 rounded-lg bg-gray-50 hover:bg-gray-100 transition">
+          <img
+            src={dishItem.dishId?.image || 'https://via.placeholder.com/100'}
+            alt={dishItem.dishId?.name || 'Món ăn'}
+            className="w-20 h-20 object-cover rounded-full mb-2"
+          />
+          <p className="text-sm font-medium">{dishItem.dishId?.name || 'Tên món'}</p>
+          <p className="text-xs text-gray-500">Số lượng: {dishItem.quantity}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+)}
           </div>
         ))
       ) : (

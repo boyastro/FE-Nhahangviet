@@ -20,7 +20,7 @@ const UserDashboard = ({ onLogout }) => {
     switch (selectedMenu) {
       case 'Đặt Bàn':
         return <BookUser />
-      case 'Lịch Sử Mua Hàng':
+      case 'Lịch Sử Đặt Bàn':
         return <BookingHistory />
       case 'Thông Tin Tài Khoản':
         return <UserProfile />
@@ -40,7 +40,7 @@ const UserDashboard = ({ onLogout }) => {
         <h2 className="text-xl font-bold text-green-700 mb-4">👤 Người Dùng</h2>
         {[
           'Đặt Bàn',
-          'Lịch Sử Mua Hàng',
+          'Lịch Sử Đặt Bàn',
           'Thông Tin Tài Khoản',
           'Cập Nhật Thông Tin',
           'Thanh Toán',

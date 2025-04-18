@@ -9,7 +9,6 @@ const EditBookingModal = ({ booking, onClose, onSave }) => {
   });
 
   const [menuList, setMenuList] = useState([]);
-  const [selectedMenuId, setSelectedMenuId] = useState('');
 
   useEffect(() => {
     const fetchMenu = async () => {
@@ -32,39 +31,56 @@ const EditBookingModal = ({ booking, onClose, onSave }) => {
     }));
   };
 
-  const handleAddDish = () => {
-    const dishToAdd = menuList.find((dish) => dish._id === selectedMenuId);
-    if (!dishToAdd) return;
-
-    setUpdatedBooking((prev) => ({
-      ...prev,
-      selectedDishes: [
-        ...prev.selectedDishes,
-        {
-          _id: dishToAdd._id,
-          name: dishToAdd.name,
-          image: dishToAdd.image,
-          quantity: 1,
-        },
-      ],
-    }));
+  const handleAddDish = (dish) => {
+    const alreadyAdded = updatedBooking.selectedDishes.some(
+      (d) => d.dishId._id === dish._id
+    );
+    if (!alreadyAdded) {
+      setUpdatedBooking((prev) => ({
+        ...prev,
+        selectedDishes: [
+          ...prev.selectedDishes,
+          {
+            dishId: dish,
+            quantity: 1,
+          },
+        ],
+      }));
+    }
   };
 
   const handleRemoveDish = (dishId) => {
     setUpdatedBooking((prev) => ({
       ...prev,
-      selectedDishes: prev.selectedDishes.filter((dish) => dish._id !== dishId),
+      selectedDishes: prev.selectedDishes.filter(
+        (dish) => dish.dishId._id !== dishId
+      ),
+    }));
+  };
+
+  const handleQuantityChange = (dishId, quantity) => {
+    setUpdatedBooking((prev) => ({
+      ...prev,
+      selectedDishes: prev.selectedDishes.map((dish) =>
+        dish.dishId._id === dishId
+          ? { ...dish, quantity: Number(quantity) }
+          : dish
+      ),
     }));
   };
 
   const handleSave = async () => {
     try {
       const token = localStorage.getItem('token');
-      await axios.put(`http://localhost:5000/api/bookings/${updatedBooking._id}`, updatedBooking, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      await axios.put(
+        `http://localhost:5000/api/bookings/${updatedBooking._id}`,
+        updatedBooking,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       onSave(updatedBooking);
     } catch (err) {
       console.error('❌ Lỗi khi cập nhật đặt bàn:', err.message);
@@ -121,63 +137,56 @@ const EditBookingModal = ({ booking, onClose, onSave }) => {
 
         <div className="mb-4">
           <h4 className="font-semibold text-lg mb-2">🍽️ Món ăn đã chọn:</h4>
-          {(updatedBooking.selectedDishes || []).map((dish) => (
-            <div key={dish._id} className="flex items-center justify-between mb-2">
+          {(updatedBooking.selectedDishes || []).map((dishObj) => (
+            <div key={dishObj.dishId._id} className="flex items-center justify-between mb-2">
               <div className="flex items-center">
                 <img
-                  src={dish.image || 'https://via.placeholder.com/100'}
-                  alt={dish.name}
+                  src={dishObj.dishId.image || 'https://via.placeholder.com/100'}
+                  alt={dishObj.dishId.name}
                   className="w-16 h-16 object-cover rounded-full mr-2"
                 />
-                <span className="font-medium">{dish.name}</span>
+                <div>
+                  <p className="font-medium">{dishObj.dishId.name}</p>
+                  <input
+                    type="number"
+                    min="1"
+                    value={dishObj.quantity}
+                    onChange={(e) => handleQuantityChange(dishObj.dishId._id, e.target.value)}
+                    className="w-20 mt-1 p-1 border border-gray-300 rounded text-sm"
+                  />
+                </div>
               </div>
               <span
-                onClick={() => handleRemoveDish(dish._id)}
+                onClick={() => handleRemoveDish(dishObj.dishId._id)}
                 className="text-red-500 hover:text-red-700 cursor-pointer"
               >
                 Xóa
               </span>
             </div>
           ))}
+        </div>
 
-          <div className="mt-6">
-            <h4 className="font-semibold text-lg mb-2">🧾 Danh sách món ăn:</h4>
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 max-h-[300px] overflow-y-auto">
-              {menuList.map((dish) => (
-                <div
-                  key={dish._id}
-                  className="cursor-pointer border rounded-lg p-2 hover:bg-gray-100 transition flex flex-col items-center"
-                  onClick={() => {
-                    const alreadyAdded = updatedBooking.selectedDishes.some(d => d._id === dish._id);
-                    if (!alreadyAdded) {
-                      setUpdatedBooking((prev) => ({
-                        ...prev,
-                        selectedDishes: [
-                          ...prev.selectedDishes,
-                          {
-                            _id: dish._id,
-                            name: dish.name,
-                            image: dish.image,
-                            quantity: 1,
-                          },
-                        ],
-                      }));
-                    }
-                  }}
-                >
-                  <img
-                    src={dish.image || 'https://via.placeholder.com/100'}
-                    alt={dish.name}
-                    className="w-20 h-20 object-cover rounded-full mb-2"
-                  />
-                  <p className="text-sm font-medium text-center">{dish.name}</p>
-                </div>
-              ))}
-            </div>
+        <div className="mt-6">
+          <h4 className="font-semibold text-lg mb-2">🧾 Danh sách món ăn:</h4>
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 max-h-[300px] overflow-y-auto">
+            {menuList.map((dish) => (
+              <div
+                key={dish._id}
+                className="cursor-pointer border rounded-lg p-2 hover:bg-gray-100 transition flex flex-col items-center"
+                onClick={() => handleAddDish(dish)}
+              >
+                <img
+                  src={dish.image || 'https://via.placeholder.com/100'}
+                  alt={dish.name}
+                  className="w-20 h-20 object-cover rounded-full mb-2"
+                />
+                <p className="text-sm font-medium text-center">{dish.name}</p>
+              </div>
+            ))}
           </div>
         </div>
 
-        <div className="flex justify-between mt-4">
+        <div className="flex justify-between mt-6">
           <span
             onClick={onClose}
             className="bg-gray-500 text-white py-2 px-4 rounded cursor-pointer"
