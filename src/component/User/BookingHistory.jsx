@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import EditBookingModal from "./EditBookingModal"; // Giả sử bạn đã tách EditBookingModal thành một file riêng
+import PaymentModal from "./PaymentModal"; // Import modal thanh toán
 
 const BookingHistory = () => {
   const [bookings, setBookings] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedBooking, setSelectedBooking] = useState(null);
+  const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false); // Trạng thái mở modal thanh toán
 
   useEffect(() => {
     const fetchBookings = async () => {
@@ -20,7 +22,6 @@ const BookingHistory = () => {
           }
         );
 
-        // Sắp xếp bookings theo thời gian đặt mới nhất lên đầu
         const sortedBookings = res.data.sort(
           (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
         );
@@ -50,7 +51,6 @@ const BookingHistory = () => {
   };
 
   const handleSaveBooking = (updatedBooking) => {
-    // Tính lại tổng số tiền sau khi chỉnh sửa
     updatedBooking.totalAmount = calculateTotalAmount(
       updatedBooking.selectedDishes
     );
@@ -63,7 +63,6 @@ const BookingHistory = () => {
     handleCloseModal();
   };
 
-  // Hàm xử lý xóa đặt bàn
   const handleDeleteBooking = async (bookingId) => {
     try {
       const token = localStorage.getItem("token");
@@ -73,13 +72,44 @@ const BookingHistory = () => {
         },
       });
 
-      // Cập nhật lại danh sách bookings sau khi xóa
       setBookings((prevBookings) =>
         prevBookings.filter((booking) => booking._id !== bookingId)
       );
     } catch (err) {
       console.error("❌ Lỗi khi xóa đặt bàn:", err.message);
     }
+  };
+
+  const handleOpenPaymentModal = (booking) => {
+    setSelectedBooking(booking);
+    setIsPaymentModalOpen(true);
+  };
+
+  const handleClosePaymentModal = () => {
+    setIsPaymentModalOpen(false);
+    setSelectedBooking(null);
+  };
+
+  const handlePaymentSuccess = async (updatedBooking) => {
+    try {
+      const token = localStorage.getItem("token");
+      const res = await axios.get(
+        "http://localhost:5000/api/bookings/history",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      const sortedBookings = res.data.sort(
+        (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+      );
+      setBookings(sortedBookings); // Cập nhật lại bookings
+    } catch (err) {
+      console.error("❌ Lỗi khi lấy lịch sử đặt bàn:", err.message);
+    }
+    handleClosePaymentModal();
   };
 
   return (
@@ -104,6 +134,9 @@ const BookingHistory = () => {
                 </p>
                 <p className="text-sm text-gray-700">
                   📝 Ghi chú: {booking.note || "Không có ghi chú"}
+                </p>
+                <p className="text-sm text-green-700 font-semibold">
+                  {booking.isPaid ? "✅ Đã thanh toán" : "❌ Chưa thanh toán"}
                 </p>
               </div>
               <div>
@@ -151,12 +184,20 @@ const BookingHistory = () => {
                   ))}
                 </div>
 
-                {/* Hiển thị tổng số tiền */}
                 <div className="mt-4">
                   <p className="text-xl font-semibold text-green-700">
                     Tổng tiền: {booking.totalAmount.toLocaleString("vi-VN")} đ
                   </p>
                 </div>
+
+                {!booking.isPaid && (
+                  <button
+                    onClick={() => handleOpenPaymentModal(booking)}
+                    className="bg-green-500 text-white py-2 px-4 rounded mt-4 hover:bg-green-600"
+                  >
+                    Thanh toán
+                  </button>
+                )}
               </div>
             )}
           </div>
@@ -172,6 +213,14 @@ const BookingHistory = () => {
           booking={selectedBooking}
           onClose={handleCloseModal}
           onSave={handleSaveBooking}
+        />
+      )}
+
+      {isPaymentModalOpen && (
+        <PaymentModal
+          booking={selectedBooking}
+          onClose={handleClosePaymentModal}
+          onPaymentSuccess={handlePaymentSuccess}
         />
       )}
     </div>
