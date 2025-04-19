@@ -1,14 +1,14 @@
 // ==================== All Import
 import React, { useEffect, useState } from 'react'
 import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from "react-router-dom"
-import Homepage from "./component/Homepage"
-import Contact from "./component/Contact"
-import Auth from "./component/Auth"
-import Book from "./component/Book"
-import Blog from "./component/Blog"
-import Manu from "./component/Manu"
-import Blog_burger_details from "./component/Blog_burger_details"
-import About from "./component/About"
+import Homepage from "./component/HomePage/Homepage"
+import Contact from "./component/HomePage/Contact"
+import Auth from "./component/HomePage/Auth"
+import Book from "./component/HomePage/Book"
+import Blog from "./component/HomePage/Blog"
+import Manu from "./component/HomePage/Manu"
+import Blog_burger_details from "./component/HomePage/Blog_burger_details"
+import About from "./component/HomePage/About"
 import LayoutOne from "./Layout/LayoutOne"
 import AdminDashboard from './component/Admin/AdminDashboard'
 import UserDashboard from './component/User/UserDashboard'
