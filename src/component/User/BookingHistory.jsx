@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import EditBookingModal from './EditBookingModal';  // Giả sử bạn đã tách EditBookingModal thành một file riêng
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import EditBookingModal from "./EditBookingModal"; // Giả sử bạn đã tách EditBookingModal thành một file riêng
 
 const BookingHistory = () => {
   const [bookings, setBookings] = useState([]);
@@ -10,23 +10,34 @@ const BookingHistory = () => {
   useEffect(() => {
     const fetchBookings = async () => {
       try {
-        const token = localStorage.getItem('token');
-        const res = await axios.get('http://localhost:5000/api/bookings/history', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const token = localStorage.getItem("token");
+        const res = await axios.get(
+          "http://localhost:5000/api/bookings/history",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
 
         // Sắp xếp bookings theo thời gian đặt mới nhất lên đầu
-        const sortedBookings = res.data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+        const sortedBookings = res.data.sort(
+          (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+        );
         setBookings(sortedBookings);
       } catch (err) {
-        console.error('❌ Lỗi khi lấy lịch sử đặt bàn:', err.message);
+        console.error("❌ Lỗi khi lấy lịch sử đặt bàn:", err.message);
       }
     };
 
     fetchBookings();
   }, []);
+
+  const calculateTotalAmount = (selectedDishes) => {
+    return selectedDishes.reduce((total, dishItem) => {
+      return total + dishItem.dishId.price * dishItem.quantity;
+    }, 0);
+  };
 
   const handleEditBooking = (booking) => {
     setSelectedBooking(booking);
@@ -39,6 +50,11 @@ const BookingHistory = () => {
   };
 
   const handleSaveBooking = (updatedBooking) => {
+    // Tính lại tổng số tiền sau khi chỉnh sửa
+    updatedBooking.totalAmount = calculateTotalAmount(
+      updatedBooking.selectedDishes
+    );
+
     setBookings((prevBookings) =>
       prevBookings.map((booking) =>
         booking._id === updatedBooking._id ? updatedBooking : booking
@@ -50,7 +66,7 @@ const BookingHistory = () => {
   // Hàm xử lý xóa đặt bàn
   const handleDeleteBooking = async (bookingId) => {
     try {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem("token");
       await axios.delete(`http://localhost:5000/api/bookings/${bookingId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -62,7 +78,7 @@ const BookingHistory = () => {
         prevBookings.filter((booking) => booking._id !== bookingId)
       );
     } catch (err) {
-      console.error('❌ Lỗi khi xóa đặt bàn:', err.message);
+      console.error("❌ Lỗi khi xóa đặt bàn:", err.message);
     }
   };
 
@@ -76,12 +92,19 @@ const BookingHistory = () => {
           >
             <div className="flex justify-between items-center mb-4">
               <div>
-                <h3 className="text-xl font-semibold text-blue-700">{booking.name}</h3>
+                <h3 className="text-xl font-semibold text-blue-700">
+                  {booking.name}
+                </h3>
                 <p className="text-sm text-gray-700">
-                  📅 Ngày: {new Date(booking.date).toLocaleDateString('en-GB')} - ⏰ {booking.time}
+                  📅 Ngày: {new Date(booking.date).toLocaleDateString("en-GB")}{" "}
+                  - ⏰ {booking.time}
                 </p>
-                <p className="text-sm text-gray-700">👥 Số người: {booking.people}</p>
-                <p className="text-sm text-gray-700">📝 Ghi chú: {booking.note || 'Không có ghi chú'}</p>
+                <p className="text-sm text-gray-700">
+                  👥 Số người: {booking.people}
+                </p>
+                <p className="text-sm text-gray-700">
+                  📝 Ghi chú: {booking.note || "Không có ghi chú"}
+                </p>
               </div>
               <div>
                 <span
@@ -100,27 +123,48 @@ const BookingHistory = () => {
             </div>
 
             {booking.selectedDishes?.length > 0 && (
-  <div>
-    <h4 className="text-lg font-semibold text-gray-800 mb-3">🍽️ Món ăn đã chọn:</h4>
-    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-      {booking.selectedDishes.map((dishItem, index) => (
-        <div key={index} className="flex flex-col items-center text-center border p-2 rounded-lg bg-gray-50 hover:bg-gray-100 transition">
-          <img
-            src={dishItem.dishId?.image || 'https://via.placeholder.com/100'}
-            alt={dishItem.dishId?.name || 'Món ăn'}
-            className="w-20 h-20 object-cover rounded-full mb-2"
-          />
-          <p className="text-sm font-medium">{dishItem.dishId?.name || 'Tên món'}</p>
-          <p className="text-xs text-gray-500">Số lượng: {dishItem.quantity}</p>
-        </div>
-      ))}
-    </div>
-  </div>
-)}
+              <div>
+                <h4 className="text-lg font-semibold text-gray-800 mb-3">
+                  🍽️ Món ăn đã chọn:
+                </h4>
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                  {booking.selectedDishes.map((dishItem, index) => (
+                    <div
+                      key={index}
+                      className="flex flex-col items-center text-center border p-2 rounded-lg bg-gray-50 hover:bg-gray-100 transition"
+                    >
+                      <img
+                        src={
+                          dishItem.dishId?.image ||
+                          "https://via.placeholder.com/100"
+                        }
+                        alt={dishItem.dishId?.name || "Món ăn"}
+                        className="w-20 h-20 object-cover rounded-full mb-2"
+                      />
+                      <p className="text-sm font-medium">
+                        {dishItem.dishId?.name || "Tên món"}
+                      </p>
+                      <p className="text-xs text-gray-500">
+                        Số lượng: {dishItem.quantity}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Hiển thị tổng số tiền */}
+                <div className="mt-4">
+                  <p className="text-xl font-semibold text-green-700">
+                    Tổng tiền: {booking.totalAmount.toLocaleString("vi-VN")} đ
+                  </p>
+                </div>
+              </div>
+            )}
           </div>
         ))
       ) : (
-        <p className="text-center text-gray-500 text-lg">Chưa có lịch sử đặt bàn.</p>
+        <p className="text-center text-gray-500 text-lg">
+          Chưa có lịch sử đặt bàn.
+        </p>
       )}
 
       {isModalOpen && (
