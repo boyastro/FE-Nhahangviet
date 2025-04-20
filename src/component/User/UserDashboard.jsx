@@ -1,57 +1,47 @@
 // ==================== All Import
-import React, { useState, useEffect } from 'react'
-import BookUser from './bookuser'
-import BookingHistory from './BookingHistory'
-import UserProfile from './UserProfile'
+import React, { useState, useEffect } from "react";
+import BookUser from "./BookUsers";
+import BookingHistory from "./BookingHistory";
+import UserProfile from "./UserProfile";
 
 // ==================== All Components
 const UserDashboard = ({ onLogout }) => {
   // Lấy trạng thái của selectedMenu từ localStorage khi trang tải lại
   const [selectedMenu, setSelectedMenu] = useState(
-    localStorage.getItem('selectedMenu') || 'Thông Tin Tài Khoản'
-  )
+    localStorage.getItem("selectedMenu") || "Thông Tin Tài Khoản"
+  );
 
   // Cập nhật lại selectedMenu vào localStorage mỗi khi người dùng thay đổi menu
   useEffect(() => {
-    localStorage.setItem('selectedMenu', selectedMenu)
-  }, [selectedMenu])
+    localStorage.setItem("selectedMenu", selectedMenu);
+  }, [selectedMenu]);
 
   const renderContent = () => {
     switch (selectedMenu) {
-      case 'Đặt Bàn':
-        return <BookUser />
-      case 'Lịch Sử Đặt Bàn':
-        return <BookingHistory />
-      case 'Thông Tin Tài Khoản':
-        return <UserProfile />
-      case 'Cập Nhật Thông Tin':
-        return <p>Chỉnh sửa thông tin tài khoản tại đây.</p>
-      case 'Thanh Toán':
-        return <p>Thực hiện thanh toán đơn hàng tại đây.</p>
+      case "Đặt Bàn":
+        return <BookUser />;
+      case "Lịch Sử Đặt Bàn":
+        return <BookingHistory />;
+      case "Thông Tin Tài Khoản":
+        return <UserProfile />;
       default:
-        return <p>Chọn một mục để xem chi tiết.</p>
+        return <p>Chọn một mục để xem chi tiết.</p>;
     }
-  }
+  };
 
   return (
     <div className="flex min-h-screen">
       {/* Sidebar menu bên trái */}
       <aside className="w-64 bg-gray-100 border-r p-4 space-y-3">
         <h2 className="text-xl font-bold text-green-700 mb-4">👤 Người Dùng</h2>
-        {[
-          'Đặt Bàn',
-          'Lịch Sử Đặt Bàn',
-          'Thông Tin Tài Khoản',
-          'Cập Nhật Thông Tin',
-          'Thanh Toán',
-        ].map((item) => (
+        {["Đặt Bàn", "Lịch Sử Đặt Bàn", "Thông Tin Tài Khoản"].map((item) => (
           <button
             key={item}
             onClick={() => setSelectedMenu(item)}
             className={`block w-full text-left px-4 py-2 rounded-lg ${
               selectedMenu === item
-                ? 'bg-green-600 text-white'
-                : 'hover:bg-green-100 text-gray-800'
+                ? "bg-green-600 text-white"
+                : "hover:bg-green-100 text-gray-800"
             } transition duration-200`}
           >
             {item}
@@ -77,7 +67,7 @@ const UserDashboard = ({ onLogout }) => {
         </div>
       </main>
     </div>
-  )
-}
+  );
+};
 
-export default UserDashboard
+export default UserDashboard;
