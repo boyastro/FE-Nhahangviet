@@ -26,6 +26,12 @@ const HomeBlogs = () => {
     fetchBlogs();
   }, []);
 
+  // Function to format date to dd/mm/yyyy
+  const formatDate = (date) => {
+    const options = { day: "2-digit", month: "2-digit", year: "numeric" };
+    return new Intl.DateTimeFormat("en-GB", options).format(new Date(date));
+  };
+
   return (
     <section className="container pt-[120px] py-5">
       {/* ================= Header ================= */}
@@ -57,7 +63,7 @@ const HomeBlogs = () => {
             />
             <ul className="py-12 px-8 flex flex-col gap-[15px]">
               <li className="font-DM_sans font-medium text-base text-[#737865]">
-                {new Date(blogs[0].createdAt).toLocaleDateString()}
+                {formatDate(blogs[0].createdAt)}
               </li>
               <li className="font-DM_sans font-medium text-xl">
                 {blogs[0].title}
@@ -84,7 +90,7 @@ const HomeBlogs = () => {
               />
               <ul className="p-[25px]">
                 <li className="font-DM_sans font-medium text-sm text-[#737865]">
-                  {new Date(item.createdAt).toLocaleDateString()}
+                  {formatDate(item.createdAt)}
                 </li>
                 <li className="mt-3 font-DM_sans font-medium text-xl">
                   {item.title}

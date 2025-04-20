@@ -21,6 +21,12 @@ const Blog = () => {
     fetchBlogs();
   }, []);
 
+  // ==================== Format Date to dd/mm/yyyy
+  const formatDate = (date) => {
+    const options = { day: "2-digit", month: "2-digit", year: "numeric" };
+    return new Intl.DateTimeFormat("en-GB", options).format(new Date(date));
+  };
+
   return (
     <>
       {/* ================= Blog Head Part ================= */}
@@ -45,7 +51,7 @@ const Blog = () => {
           >
             <img src={items.image} alt={items.title} />
             <ul className="ml-6 font-DM_sans font-medium text-sm">
-              {new Date(items.createdAt).toLocaleDateString()}
+              {formatDate(items.createdAt)}
             </ul>
             <ul className="px-6 font-DM_sans font-medium text-xl">
               {items.title}

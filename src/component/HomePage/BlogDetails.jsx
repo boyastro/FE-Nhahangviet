@@ -22,6 +22,12 @@ const BlogDetails = () => {
     fetchBlog();
   }, [id]);
 
+  // ==================== Format Date to dd/mm/yyyy
+  const formatDate = (date) => {
+    const options = { day: "2-digit", month: "2-digit", year: "numeric" };
+    return new Intl.DateTimeFormat("en-GB", options).format(new Date(date));
+  };
+
   // ==================== Loading
   if (!blog) return <div className="p-10">Đang tải dữ liệu bài viết...</div>;
 
@@ -29,9 +35,7 @@ const BlogDetails = () => {
   return (
     <section className="container pt-[120px] pb-[60px]">
       <h1 className="text-4xl font-bold mb-4">{blog.title}</h1>
-      <p className="text-gray-500 mb-4">
-        {new Date(blog.createdAt).toLocaleDateString()}
-      </p>
+      <p className="text-gray-500 mb-4">{formatDate(blog.createdAt)}</p>
       <img
         src={blog.image}
         alt={blog.title}
