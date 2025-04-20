@@ -1,43 +1,60 @@
 // ==================== All Import
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import axios from "axios";
 
 const Blog = () => {
+  // ==================== useState Hook
+  const [blog, setBlog] = useState([]);
 
-    // ==================== useState Hook
-    const [blog, setBlog] = useState([])
-    
-    // ==================== To Fetch From Api
-    useEffect(() => {
-        fetch("https://api.jsonbin.io/v3/b/66d486d6e41b4d34e42890cd")
-            .then(response => response.json())
-            .then(json => setBlog(json.record))
-    }, [])
+  // ==================== To Fetch From API
+  useEffect(() => {
+    const fetchBlogs = async () => {
+      try {
+        const res = await axios.get("http://localhost:5000/api/blogs");
+        setBlog(res.data);
+      } catch (err) {
+        console.error("❌ Lỗi khi lấy dữ liệu bài viết", err.message);
+      }
+    };
 
-    return (
-        <>
-            {/* ================= Blog Head Part ================= */}
-            <section className='container text-center mt-[68px]'>
-                <h1 className='font-PlayfairD font-normal text-[100px] leading-[96px]'>Bài viết</h1>
-                <p className='mt-6 font-DM_sans font-normal text-lg'>Chúng tôi trân trọng giá trị Việt<br /> qua từng món ăn chúng tôi chế biến.</p>
-            </section>
+    fetchBlogs();
+  }, []);
 
-            {/* ================= All Blogs Part ================= */}
-            <section className='container mt-[72px] flex flex-wrap justify-center gap-10'>
+  return (
+    <>
+      {/* ================= Blog Head Part ================= */}
+      <section className="container text-center mt-[68px]">
+        <h1 className="font-PlayfairD font-normal text-[100px] leading-[96px]">
+          Bài viết
+        </h1>
+        <p className="mt-6 font-DM_sans font-normal text-lg">
+          Chúng tôi trân trọng giá trị Việt
+          <br /> qua từng món ăn chúng tôi chế biến
+        </p>
+      </section>
 
-                {/* ================= All Blogs Fetched From Api =================  */}
-                {
-                    blog.map((items) => (
+      {/* ================= All Blogs Part ================= */}
+      <section className="container mt-[72px] flex flex-wrap justify-center gap-10">
+        {/* ================= All Blogs Fetched From Api =================  */}
+        {blog.map((items) => (
+          <Link
+            to={`/blog/${items._id}`}
+            key={items._id}
+            className="w-[306px] flex flex-col gap-5 border-2 rounded-xl pb-[26px] hover:scale-105 transition duration-800 will-change-transform"
+          >
+            <img src={items.image} alt={items.title} />
+            <ul className="ml-6 font-DM_sans font-medium text-sm">
+              {new Date(items.createdAt).toLocaleDateString()}
+            </ul>
+            <ul className="px-6 font-DM_sans font-medium text-xl">
+              {items.title}
+            </ul>
+          </Link>
+        ))}
+      </section>
+    </>
+  );
+};
 
-                        <ul key={items.product_key} className='w-[306px] flex flex-col gap-5 border-2 rounded-xl pb-[26px] hover:scale-105 transition duration-800 will-change-transform'>
-                            <img src={items.image} alt="blogs_images" />
-                            <li className='ml-6 font-DM_sans font-medium text-sm'>{items.date}</li>
-                            <li className='px-6 font-DM_sans font-medium text-xl'>{items.info}</li>
-                        </ul>
-                    ))
-                }
-            </section>
-        </>
-    )
-}
-
-export default Blog
+export default Blog;

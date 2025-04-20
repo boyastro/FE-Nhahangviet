@@ -1,54 +1,57 @@
 // ==================== All Import
-import React, { useState, useEffect } from 'react'
-import UserAdmin from './AdminUserManager'
-import MenuAdmin from './AdminMenuManager'
+import React, { useState, useEffect } from "react";
+import UserAdmin from "./AdminUserManager";
+import MenuAdmin from "./AdminMenuManager";
+import BlogAdmin from "./AdminBlogList";
 
 // ==================== All Components
 const AdminDashboard = ({ onLogout }) => {
   const [selectedSection, setSelectedSection] = useState(() => {
-    return localStorage.getItem('admin-section') || 'Quản Lý Người Dùng'
-  })
+    return localStorage.getItem("admin-section") || "Quản Lý Người Dùng";
+  });
 
   useEffect(() => {
-    localStorage.setItem('admin-section', selectedSection)
-  }, [selectedSection])
+    localStorage.setItem("admin-section", selectedSection);
+  }, [selectedSection]);
 
   const renderSection = () => {
     switch (selectedSection) {
-      case 'Quản Lý Người Dùng':
-        return <UserAdmin />
-      case 'Quản Lý Menu':
-        return <MenuAdmin />
-      case 'Quản Lý Blog':
-        return <p>Viết bài, sửa/xóa bài viết blog tại đây.</p>
-      case 'Quản Lý Đặt Bàn':
-        return <p>Xem và xử lý các yêu cầu đặt bàn từ người dùng.</p>
-      case 'Quản Lý Thanh Toán':
-        return <p>Kiểm tra hóa đơn, trạng thái thanh toán.</p>
+      case "Quản Lý Người Dùng":
+        return <UserAdmin />;
+      case "Quản Lý Menu":
+        return <MenuAdmin />;
+      case "Quản Lý Blog":
+        return <BlogAdmin />;
+      case "Quản Lý Đặt Bàn":
+        return <p>Xem và xử lý các yêu cầu đặt bàn từ người dùng.</p>;
+      case "Quản Lý Thanh Toán":
+        return <p>Kiểm tra hóa đơn, trạng thái thanh toán.</p>;
       default:
-        return <p>Chọn mục quản lý để xem chi tiết.</p>
+        return <p>Chọn mục quản lý để xem chi tiết.</p>;
     }
-  }
+  };
 
   return (
     <div className="flex min-h-screen bg-gray-50">
       {/* Sidebar */}
       <aside className="w-64 bg-white border-r p-4 space-y-3">
-        <h2 className="text-xl font-bold text-blue-700 mb-4">🛠️ Quản trị viên</h2>
+        <h2 className="text-xl font-bold text-blue-700 mb-4">
+          🛠️ Quản trị viên
+        </h2>
         {[
-          'Quản Lý Người Dùng',
-          'Quản Lý Menu',
-          'Quản Lý Blog',
-          'Quản Lý Đặt Bàn',
-          'Quản Lý Thanh Toán',
+          "Quản Lý Người Dùng",
+          "Quản Lý Menu",
+          "Quản Lý Blog",
+          "Quản Lý Đặt Bàn",
+          "Quản Lý Thanh Toán",
         ].map((item) => (
           <button
             key={item}
             onClick={() => setSelectedSection(item)}
             className={`block w-full text-left px-4 py-2 rounded-lg ${
               selectedSection === item
-                ? 'bg-blue-600 text-white'
-                : 'hover:bg-blue-100 text-gray-800'
+                ? "bg-blue-600 text-white"
+                : "hover:bg-blue-100 text-gray-800"
             } transition duration-200`}
           >
             {item}
@@ -74,7 +77,7 @@ const AdminDashboard = ({ onLogout }) => {
         </div>
       </main>
     </div>
-  )
-}
+  );
+};
 
-export default AdminDashboard
+export default AdminDashboard;

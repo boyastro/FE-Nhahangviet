@@ -1,6 +1,7 @@
 // ==================== All Import
 import React from "react";
 import { Link } from "react-router-dom";
+import HomeBlogs from "./HomeBlogs";
 import { FaPhone } from "react-icons/fa";
 import { FiCoffee } from "react-icons/fi";
 import { BiBowlRice } from "react-icons/bi";
@@ -352,97 +353,9 @@ const Homepage = () => {
       </section>
 
       {/* ================= Home Blogs part ================= */}
-      <section className="container pt-[120px] py-5">
-        {/* -------- blog header -------- */}
-        <ul className="flex justify-between">
-          <h4 className="font-PlayfairD font-medium text-[55px] leading-[60px]">
-            Các bài viết
-          </h4>
-
-          {/* -------- button for go to article page -------- */}
-          <Link to="/blog">
-            <button className="w-[190px] h-[65px] bg-[#AD343E] text-white rounded-full hover:bg-red-600 transition duration-200">
-              Đọc tất cả
-            </button>
-          </Link>
-        </ul>
-
-        {/* -------- articles + infos  -------- */}
-        <ul className="mt-[130px] flex justify-between">
-          {/* -------- items -------- */}
-          <Link
-            to="/blog/burger_details"
-            className="w-[836px] rounded-xl border-2 hover:scale-105 transition duration-200 will-change-transform"
-          >
-            <img src="/burger.png" alt="burger_image" className="w-full" />
-            <ul className="py-12 px-8 flex flex-col gap-[15px]">
-              <li className="font-DM_sans font-medium text-base text-[#737865]">
-                10-04-2025
-              </li>
-              <li className="font-DM_sans font-medium text-xl">
-                Cách làm món Ốc om chuối đậu
-              </li>
-              <li className="font-DM_sans font-normal text-base">
-                Cách làm món ốc om chuối đậu ngon.
-              </li>
-            </ul>
-          </Link>
-
-          <div className="w-[640px] flex flex-wrap gap-6">
-            {/* -------- items -------- */}
-            <ul className="w-[306px] rounded-xl border-2 hover:scale-105 duration-300 will-change-transform">
-              <img src="/fries.png" alt="fries_image" />
-              <ul className="p-[25px]">
-                <li className="font-DM_sans font-medium text-sm text-[#737865]">
-                  10-04-2025
-                </li>
-                <li className="mt-3 font-DM_sans font-medium text-xl">
-                  Cách làm món Ốc om chuối đậu
-                </li>
-              </ul>
-            </ul>
-
-            {/* -------- items -------- */}
-            <ul className="w-[306px] rounded-xl border-2 hover:scale-105 duration-300 will-change-transform">
-              <img src="/nugget.png" alt="nugget_image" />
-              <ul className="p-[25px]">
-                <li className="font-DM_sans font-medium text-sm text-[#737865]">
-                  10-04-2025
-                </li>
-                <li className="mt-3 font-DM_sans font-medium text-xl">
-                  Cách làm món Ốc om chuối đậu
-                </li>
-              </ul>
-            </ul>
-
-            {/* -------- items -------- */}
-            <ul className="w-[306px] rounded-xl border-2 hover:scale-105 duration-300 will-change-transform">
-              <img src="/chocake.png" alt="chocake_image" />
-              <ul className="p-[25px]">
-                <li className="font-DM_sans font-medium text-sm text-[#737865]">
-                  10-04-2025
-                </li>
-                <li className="mt-3 font-DM_sans font-medium text-xl">
-                  Cách làm món Ốc om chuối đậu
-                </li>
-              </ul>
-            </ul>
-
-            {/* -------- items -------- */}
-            <ul className="w-[306px] rounded-xl border-2 hover:scale-105 duration-300 will-change-transform">
-              <img src="/pizza.png" alt="pizza_image" />
-              <ul className="p-[25px]">
-                <li className="font-DM_sans font-medium text-sm text-[#737865]">
-                  10-04-2025
-                </li>
-                <li className="mt-3 font-DM_sans font-medium text-xl">
-                  Cách làm món Ốc om chuối đậu
-                </li>
-              </ul>
-            </ul>
-          </div>
-        </ul>
-      </section>
+      <div>
+        <HomeBlogs />
+      </div>
     </>
   );
 };
