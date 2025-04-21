@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import UserAdmin from "./AdminUserManager";
 import MenuAdmin from "./AdminMenuManager";
 import BlogAdmin from "./AdminBlogList";
+import BookingAdmin from "./AdminBookingList";
 
 // ==================== All Components
 const AdminDashboard = ({ onLogout }) => {
@@ -23,7 +24,7 @@ const AdminDashboard = ({ onLogout }) => {
       case "Quản Lý Blog":
         return <BlogAdmin />;
       case "Quản Lý Đặt Bàn":
-        return <p>Xem và xử lý các yêu cầu đặt bàn từ người dùng.</p>;
+        return <BookingAdmin />;
       case "Quản Lý Thanh Toán":
         return <p>Kiểm tra hóa đơn, trạng thái thanh toán.</p>;
       default:
@@ -43,7 +44,6 @@ const AdminDashboard = ({ onLogout }) => {
           "Quản Lý Menu",
           "Quản Lý Blog",
           "Quản Lý Đặt Bàn",
-          "Quản Lý Thanh Toán",
         ].map((item) => (
           <button
             key={item}
