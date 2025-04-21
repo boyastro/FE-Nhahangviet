@@ -139,20 +139,22 @@ const BookingHistory = () => {
                   {booking.isPaid ? "✅ Đã thanh toán" : "❌ Chưa thanh toán"}
                 </p>
               </div>
-              <div>
-                <span
-                  onClick={() => handleEditBooking(booking)}
-                  className="bg-yellow-500 text-white py-2 px-4 rounded cursor-pointer hover:bg-yellow-600 mr-2"
-                >
-                  Chỉnh sửa
-                </span>
-                <span
-                  onClick={() => handleDeleteBooking(booking._id)}
-                  className="bg-red-500 text-white py-2 px-4 rounded cursor-pointer hover:bg-red-600"
-                >
-                  Xoá
-                </span>
-              </div>
+              {!booking.isPaid && (
+                <div>
+                  <span
+                    onClick={() => handleEditBooking(booking)}
+                    className="bg-yellow-500 text-white py-2 px-4 rounded cursor-pointer hover:bg-yellow-600 mr-2"
+                  >
+                    Chỉnh sửa
+                  </span>
+                  <span
+                    onClick={() => handleDeleteBooking(booking._id)}
+                    className="bg-red-500 text-white py-2 px-4 rounded cursor-pointer hover:bg-red-600"
+                  >
+                    Xoá
+                  </span>
+                </div>
+              )}
             </div>
 
             {booking.selectedDishes?.length > 0 && (
