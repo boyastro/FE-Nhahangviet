@@ -1,49 +1,57 @@
-import React, { useEffect, useState } from 'react'
-import axios from 'axios'
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 
 const AdminUserManager = () => {
-  const [users, setUsers] = useState([])
-  const [editingUserId, setEditingUserId] = useState(null)
-  const [formData, setFormData] = useState({})
+  const [users, setUsers] = useState([]);
+  const [editingUserId, setEditingUserId] = useState(null);
+  const [formData, setFormData] = useState({});
+  const API_BASE_URL =
+    import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
 
   useEffect(() => {
-    fetchUsers()
-  }, [])
+    fetchUsers();
+  }, []);
 
   const fetchUsers = async () => {
-    const res = await axios.get('http://localhost:5000/api/users')
-    setUsers(res.data)
-  }
+    const res = await axios.get(`${API_BASE_URL}/api/users`);
+    setUsers(res.data);
+  };
 
   const handleEdit = (user) => {
-    setEditingUserId(user._id)
-    setFormData({ username: user.username, email: user.email, role: user.role })
-  }
+    setEditingUserId(user._id);
+    setFormData({
+      username: user.username,
+      email: user.email,
+      role: user.role,
+    });
+  };
 
   const handleChange = (e) => {
-    const { name, value } = e.target
-    setFormData((prev) => ({ ...prev, [name]: value }))
-  }
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
 
   const handleUpdate = async () => {
-    await axios.put(`http://localhost:5000/api/users/${editingUserId}`, formData)
-    setEditingUserId(null)
-    fetchUsers()
-  }
+    await axios.put(`${API_BASE_URL}/api/users/${editingUserId}`, formData);
+    setEditingUserId(null);
+    fetchUsers();
+  };
 
   const handleDelete = async (id) => {
-    if (confirm('Xác nhận xóa user này?')) {
-      await axios.delete(`http://localhost:5000/api/users/${id}`)
-      fetchUsers()
+    if (confirm("Xác nhận xóa user này?")) {
+      await axios.delete(`${API_BASE_URL}/api/users/${id}`);
+      fetchUsers();
     }
-  }
+  };
 
   return (
     <div className="p-4 md:p-6">
       <table className="w-full table-auto border-collapse border">
         <thead>
           <tr className="bg-gray-100">
-            <th className="border px-2 py-1 text-sm md:text-base">Tên đăng nhập</th>
+            <th className="border px-2 py-1 text-sm md:text-base">
+              Tên đăng nhập
+            </th>
             <th className="border px-2 py-1 text-sm md:text-base">Email</th>
             <th className="border px-2 py-1 text-sm md:text-base">Vai trò</th>
             <th className="border px-2 py-1 text-sm md:text-base">Hành động</th>
@@ -94,13 +102,33 @@ const AdminUserManager = () => {
               <td className="border px-2 py-1 space-x-2">
                 {editingUserId === user._id ? (
                   <>
-                    <button onClick={handleUpdate} className="text-green-600 text-sm md:text-base">Lưu</button>
-                    <button onClick={() => setEditingUserId(null)} className="text-gray-500 text-sm md:text-base">Hủy</button>
+                    <button
+                      onClick={handleUpdate}
+                      className="text-green-600 text-sm md:text-base"
+                    >
+                      Lưu
+                    </button>
+                    <button
+                      onClick={() => setEditingUserId(null)}
+                      className="text-gray-500 text-sm md:text-base"
+                    >
+                      Hủy
+                    </button>
                   </>
                 ) : (
                   <>
-                    <button onClick={() => handleEdit(user)} className="text-blue-600 text-sm md:text-base">Sửa</button>
-                    <button onClick={() => handleDelete(user._id)} className="text-red-600 text-sm md:text-base">Xóa</button>
+                    <button
+                      onClick={() => handleEdit(user)}
+                      className="text-blue-600 text-sm md:text-base"
+                    >
+                      Sửa
+                    </button>
+                    <button
+                      onClick={() => handleDelete(user._id)}
+                      className="text-red-600 text-sm md:text-base"
+                    >
+                      Xóa
+                    </button>
                   </>
                 )}
               </td>
@@ -109,7 +137,7 @@ const AdminUserManager = () => {
         </tbody>
       </table>
     </div>
-  )
-}
+  );
+};
 
-export default AdminUserManager
+export default AdminUserManager;

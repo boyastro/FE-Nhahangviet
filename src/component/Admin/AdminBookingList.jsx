@@ -8,18 +8,17 @@ const AdminBookingList = () => {
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
   const [editingBooking, setEditingBooking] = useState(null);
+  const API_BASE_URL =
+    import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
 
   useEffect(() => {
     const fetchAllBookings = async () => {
       try {
         setLoading(true);
         const token = localStorage.getItem("token");
-        const res = await axios.get(
-          "http://localhost:5000/api/admin/bookings",
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        );
+        const res = await axios.get(`${API_BASE_URL}/api/admin/bookings`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
         const sorted = res.data.sort(
           (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
         );
@@ -38,7 +37,7 @@ const AdminBookingList = () => {
     try {
       const token = localStorage.getItem("token");
       await axios.patch(
-        `http://localhost:5000/api/admin/bookings/${bookingId}/pay`,
+        `${API_BASE_URL}/api/admin/bookings/${bookingId}/pay`,
         {},
         {
           headers: { Authorization: `Bearer ${token}` },
@@ -57,7 +56,7 @@ const AdminBookingList = () => {
       return;
     try {
       const token = localStorage.getItem("token");
-      await axios.delete(`http://localhost:5000/api/bookings/${bookingId}`, {
+      await axios.delete(`${API_BASE_URL}/api/bookings/${bookingId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setBookings((prev) => prev.filter((b) => b._id !== bookingId));

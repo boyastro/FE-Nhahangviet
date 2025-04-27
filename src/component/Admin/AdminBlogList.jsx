@@ -12,11 +12,13 @@ const AdminBlogManager = () => {
   });
   const [editId, setEditId] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const API_BASE_URL =
+    import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
 
   // ==================== Fetch Blog Items from API
   const fetchBlogs = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/blogs");
+      const res = await axios.get(`${API_BASE_URL}/api/blogs`);
       setBlogItems(res.data);
     } catch (err) {
       console.error("❌ Lỗi khi fetch blogs:", err.message);
@@ -38,9 +40,9 @@ const AdminBlogManager = () => {
     e.preventDefault();
     try {
       if (editId) {
-        await axios.put(`http://localhost:5000/api/blogs/${editId}`, form);
+        await axios.put(`${API_BASE_URL}/api/blogs/${editId}`, form);
       } else {
-        await axios.post("http://localhost:5000/api/blogs", form);
+        await axios.post(`${API_BASE_URL}/api/blogs`, form);
       }
       setForm({ title: "", content: "", image: "", category: "" });
       setEditId(null);
@@ -67,7 +69,7 @@ const AdminBlogManager = () => {
   const handleDelete = async (id) => {
     if (window.confirm("Bạn có chắc chắn muốn xoá bài viết này không?")) {
       try {
-        await axios.delete(`http://localhost:5000/api/blogs/${id}`);
+        await axios.delete(`${API_BASE_URL}/api/blogs/${id}`);
         fetchBlogs();
       } catch (err) {
         console.error("❌ Lỗi khi xoá bài viết:", err.message);

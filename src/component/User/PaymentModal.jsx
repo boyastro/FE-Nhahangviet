@@ -3,11 +3,13 @@ import React from "react";
 import axios from "axios";
 
 const PaymentModal = ({ booking, onClose, onPaymentSuccess }) => {
+  const API_BASE_URL =
+    import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
   const handlePayment = async () => {
     const token = localStorage.getItem("token");
     try {
       const res = await axios.patch(
-        `http://localhost:5000/api/bookings/${booking._id}/pay`,
+        `${API_BASE_URL}/api/bookings/${booking._id}/pay`,
         { isPaid: true },
         {
           headers: {

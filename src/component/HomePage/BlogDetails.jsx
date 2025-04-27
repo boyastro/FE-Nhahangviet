@@ -7,11 +7,13 @@ const BlogDetails = () => {
   // ==================== All Hooks
   const { id } = useParams();
   const [blog, setBlog] = useState(null);
+  const API_BASE_URL =
+    import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
 
   // ==================== Fetch Blog by ID
   const fetchBlog = async () => {
     try {
-      const res = await axios.get(`http://localhost:5000/api/blogs/${id}`);
+      const res = await axios.get(`${API_BASE_URL}/api/blogs/${id}`);
       setBlog(res.data);
     } catch (err) {
       console.error("❌ Lỗi khi lấy chi tiết bài viết:", err.message);

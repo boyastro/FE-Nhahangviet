@@ -1,6 +1,6 @@
 // EditBookingModal.js
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 const EditBookingModal = ({ booking, onClose, onSave }) => {
   const [updatedBooking, setUpdatedBooking] = useState({
@@ -9,14 +9,16 @@ const EditBookingModal = ({ booking, onClose, onSave }) => {
   });
 
   const [menuList, setMenuList] = useState([]);
+  const API_BASE_URL =
+    import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
 
   useEffect(() => {
     const fetchMenu = async () => {
       try {
-        const res = await axios.get('http://localhost:5000/api/menus');
+        const res = await axios.get(`${API_BASE_URL}/api/menus`);
         setMenuList(res.data);
       } catch (err) {
-        console.error('❌ Lỗi khi lấy danh sách món ăn:', err.message);
+        console.error("❌ Lỗi khi lấy danh sách món ăn:", err.message);
       }
     };
 
@@ -71,9 +73,9 @@ const EditBookingModal = ({ booking, onClose, onSave }) => {
 
   const handleSave = async () => {
     try {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem("token");
       await axios.put(
-        `http://localhost:5000/api/bookings/${updatedBooking._id}`,
+        `${API_BASE_URL}/api/bookings/${updatedBooking._id}`,
         updatedBooking,
         {
           headers: {
@@ -83,7 +85,7 @@ const EditBookingModal = ({ booking, onClose, onSave }) => {
       );
       onSave(updatedBooking);
     } catch (err) {
-      console.error('❌ Lỗi khi cập nhật đặt bàn:', err.message);
+      console.error("❌ Lỗi khi cập nhật đặt bàn:", err.message);
     }
   };
 
@@ -97,7 +99,11 @@ const EditBookingModal = ({ booking, onClose, onSave }) => {
           <input
             type="date"
             name="date"
-            value={updatedBooking.date ? new Date(updatedBooking.date).toISOString().split('T')[0] : ''}
+            value={
+              updatedBooking.date
+                ? new Date(updatedBooking.date).toISOString().split("T")[0]
+                : ""
+            }
             onChange={handleChange}
             className="w-full p-2 border border-gray-300 rounded"
           />
@@ -138,10 +144,15 @@ const EditBookingModal = ({ booking, onClose, onSave }) => {
         <div className="mb-4">
           <h4 className="font-semibold text-lg mb-2">🍽️ Món ăn đã chọn:</h4>
           {(updatedBooking.selectedDishes || []).map((dishObj) => (
-            <div key={dishObj.dishId._id} className="flex items-center justify-between mb-2">
+            <div
+              key={dishObj.dishId._id}
+              className="flex items-center justify-between mb-2"
+            >
               <div className="flex items-center">
                 <img
-                  src={dishObj.dishId.image || 'https://via.placeholder.com/100'}
+                  src={
+                    dishObj.dishId.image || "https://via.placeholder.com/100"
+                  }
                   alt={dishObj.dishId.name}
                   className="w-16 h-16 object-cover rounded-full mr-2"
                 />
@@ -151,7 +162,9 @@ const EditBookingModal = ({ booking, onClose, onSave }) => {
                     type="number"
                     min="1"
                     value={dishObj.quantity}
-                    onChange={(e) => handleQuantityChange(dishObj.dishId._id, e.target.value)}
+                    onChange={(e) =>
+                      handleQuantityChange(dishObj.dishId._id, e.target.value)
+                    }
                     className="w-20 mt-1 p-1 border border-gray-300 rounded text-sm"
                   />
                 </div>
@@ -176,7 +189,7 @@ const EditBookingModal = ({ booking, onClose, onSave }) => {
                 onClick={() => handleAddDish(dish)}
               >
                 <img
-                  src={dish.image || 'https://via.placeholder.com/100'}
+                  src={dish.image || "https://via.placeholder.com/100"}
                   alt={dish.name}
                   className="w-20 h-20 object-cover rounded-full mb-2"
                 />

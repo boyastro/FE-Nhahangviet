@@ -8,19 +8,18 @@ const BookingHistory = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedBooking, setSelectedBooking] = useState(null);
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false); // Trạng thái mở modal thanh toán
+  const API_BASE_URL =
+    import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
 
   useEffect(() => {
     const fetchBookings = async () => {
       try {
         const token = localStorage.getItem("token");
-        const res = await axios.get(
-          "http://localhost:5000/api/bookings/history",
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+        const res = await axios.get(`${API_BASE_URL}/api/bookings/history`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
         const sortedBookings = res.data.sort(
           (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
@@ -66,7 +65,7 @@ const BookingHistory = () => {
   const handleDeleteBooking = async (bookingId) => {
     try {
       const token = localStorage.getItem("token");
-      await axios.delete(`http://localhost:5000/api/bookings/${bookingId}`, {
+      await axios.delete(`${API_BASE_URL}/api/bookings/${bookingId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -93,14 +92,11 @@ const BookingHistory = () => {
   const handlePaymentSuccess = async (updatedBooking) => {
     try {
       const token = localStorage.getItem("token");
-      const res = await axios.get(
-        "http://localhost:5000/api/bookings/history",
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const res = await axios.get(`${API_BASE_URL}/api/bookings/history`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       const sortedBookings = res.data.sort(
         (a, b) => new Date(b.createdAt) - new Date(a.createdAt)

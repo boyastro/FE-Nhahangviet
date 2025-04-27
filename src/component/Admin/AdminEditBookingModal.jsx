@@ -8,11 +8,13 @@ const EditBookingModal = ({ booking, onClose, onSave }) => {
   });
 
   const [menuList, setMenuList] = useState([]);
+  const API_BASE_URL =
+    import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
 
   useEffect(() => {
     const fetchMenu = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/menus");
+        const res = await axios.get(`${API_BASE_URL}/api/menus`);
         setMenuList(res.data);
       } catch (err) {
         console.error("❌ Lỗi khi lấy danh sách món ăn:", err.message);
@@ -84,7 +86,7 @@ const EditBookingModal = ({ booking, onClose, onSave }) => {
       };
 
       await axios.patch(
-        `http://localhost:5000/api/admin/bookings/${updatedBooking._id}`,
+        `${API_BASE_URL}/api/admin/bookings/${updatedBooking._id}`,
         payload,
         {
           headers: {

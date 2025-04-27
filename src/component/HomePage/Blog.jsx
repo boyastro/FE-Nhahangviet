@@ -6,12 +6,14 @@ import axios from "axios";
 const Blog = () => {
   // ==================== useState Hook
   const [blog, setBlog] = useState([]);
+  const API_BASE_URL =
+    import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
 
   // ==================== To Fetch From API
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/blogs");
+        const res = await axios.get(`${API_BASE_URL}/api/blogs`);
         setBlog(res.data);
       } catch (err) {
         console.error("❌ Lỗi khi lấy dữ liệu bài viết", err.message);

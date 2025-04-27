@@ -11,11 +11,13 @@ const truncateContent = (content) => {
 // ==================== Main Component ====================
 const HomeBlogs = () => {
   const [blogs, setBlogs] = useState([]);
+  const API_BASE_URL =
+    import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
 
   // ==================== Fetch Blogs from API ====================
   const fetchBlogs = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/blogs");
+      const res = await axios.get(`${API_BASE_URL}/api/blogs`);
       setBlogs(res.data);
     } catch (err) {
       console.error("❌ Lỗi khi lấy dữ liệu bài viết:", err.message);
