@@ -4,6 +4,7 @@ import UserAdmin from "./AdminUserManager";
 import MenuAdmin from "./AdminMenuManager";
 import BlogAdmin from "./AdminBlogList";
 import BookingAdmin from "./AdminBookingList";
+import ContactList from "./AdminContactList";
 
 // ==================== All Components
 const AdminDashboard = ({ onLogout }) => {
@@ -25,8 +26,8 @@ const AdminDashboard = ({ onLogout }) => {
         return <BlogAdmin />;
       case "Quản Lý Đặt Bàn":
         return <BookingAdmin />;
-      case "Quản Lý Thanh Toán":
-        return <p>Kiểm tra hóa đơn, trạng thái thanh toán.</p>;
+      case "Quản Lý Liên Hệ":
+        return <ContactList />;
       default:
         return <p>Chọn mục quản lý để xem chi tiết.</p>;
     }
@@ -44,6 +45,7 @@ const AdminDashboard = ({ onLogout }) => {
           "Quản Lý Menu",
           "Quản Lý Blog",
           "Quản Lý Đặt Bàn",
+          "Quản Lý Liên Hệ",
         ].map((item) => (
           <button
             key={item}
