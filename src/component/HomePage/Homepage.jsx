@@ -63,9 +63,11 @@ const Homepage = () => {
             <li className="font-DM_sans font-normal text-base leading-6">
               Các món ngon dành cho ăn sáng đậm vị.
             </li>
-            <button className="px-4 py-1 border-2 rounded-full border-[#AD343E] font-DM_sans font-bold text-[#AD343E] hover:text-white hover:bg-[#AD343E] hover:border-white duration-300">
-              Khám phá
-            </button>
+            <Link to="/manu">
+              <button className="px-4 py-1 border-2 rounded-full border-[#AD343E] font-DM_sans font-bold text-[#AD343E] hover:text-white hover:bg-[#AD343E] hover:border-white duration-300">
+                Khám phá
+              </button>
+            </Link>
           </ul>
 
           {/* ----- dishes part ----- */}
@@ -79,9 +81,11 @@ const Homepage = () => {
             <li className="font-DM_sans font-normal text-base leading-6">
               Các món ngon dành cho bữa trưa đậm vị.
             </li>
-            <button className="px-4 py-1 border-2 rounded-full border-[#AD343E] font-DM_sans font-bold text-[#AD343E] hover:text-white hover:bg-[#AD343E] hover:border-white duration-300">
-              Khám phá
-            </button>
+            <Link to="/manu">
+              <button className="px-4 py-1 border-2 rounded-full border-[#AD343E] font-DM_sans font-bold text-[#AD343E] hover:text-white hover:bg-[#AD343E] hover:border-white duration-300">
+                Khám phá
+              </button>
+            </Link>
           </ul>
 
           {/* ----- drinks part ----- */}
@@ -95,9 +99,11 @@ const Homepage = () => {
             <li className="font-DM_sans font-normal text-base leading-6">
               Các thức uống ngon thơm mát từ ba miền
             </li>
-            <button className="px-4 py-1 border-2 rounded-full border-[#AD343E] font-DM_sans font-bold text-[#AD343E] hover:text-white hover:bg-[#AD343E] hover:border-white duration-300">
-              Khám phá
-            </button>
+            <Link to="/manu">
+              <button className="px-4 py-1 border-2 rounded-full border-[#AD343E] font-DM_sans font-bold text-[#AD343E] hover:text-white hover:bg-[#AD343E] hover:border-white duration-300">
+                Khám phá
+              </button>
+            </Link>
           </ul>
 
           {/* ----- dessert part ----- */}
@@ -111,9 +117,11 @@ const Homepage = () => {
             <li className="font-DM_sans font-normal text-base leading-6">
               Các loại thức bánh và tráng miệng thơm ngon.
             </li>
-            <button className="px-4 py-1 border-2 rounded-full border-[#AD343E] font-DM_sans font-bold text-[#AD343E] hover:text-white hover:bg-[#AD343E] hover:border-white duration-300">
-              Khám phá
-            </button>
+            <Link to="/manu">
+              <button className="px-4 py-1 border-2 rounded-full border-[#AD343E] font-DM_sans font-bold text-[#AD343E] hover:text-white hover:bg-[#AD343E] hover:border-white duration-300">
+                Khám phá
+              </button>
+            </Link>
           </ul>
         </object>
       </section>
