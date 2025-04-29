@@ -5,6 +5,7 @@ const AdminContactList = () => {
   const API_BASE_URL =
     import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
 
+  // Fetch contacts data
   useEffect(() => {
     const fetchContacts = async () => {
       try {
@@ -18,6 +19,23 @@ const AdminContactList = () => {
 
     fetchContacts();
   }, []);
+
+  // Function to handle delete
+  const handleDelete = async (id) => {
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/contact/${id}`, {
+        method: "DELETE",
+      });
+      if (res.ok) {
+        // Remove the deleted contact from the local state
+        setContacts(contacts.filter((contact) => contact._id !== id));
+      } else {
+        console.error("Failed to delete the contact");
+      }
+    } catch (error) {
+      console.error("Error deleting contact:", error);
+    }
+  };
 
   return (
     <div className="container mx-auto p-6 bg-gray-100 min-h-screen">
@@ -39,6 +57,14 @@ const AdminContactList = () => {
             <p className="text-gray-600">
               <strong>Message:</strong> {contact.message}
             </p>
+
+            {/* Delete button */}
+            <button
+              onClick={() => handleDelete(contact._id)}
+              className="mt-4 bg-red-500 text-white py-2 px-4 rounded-full hover:bg-red-600 focus:outline-none"
+            >
+              Xoá Liên Hệ
+            </button>
           </div>
         ))}
       </div>
