@@ -14,23 +14,23 @@ const Homepage = () => {
   return (
     <>
       {/* ================= Banner part ================= */}
-      <section className="relative">
+      <section className="relative w-full h-screen">
         <img
           src="/banner_bg.png"
           alt="banner_image"
-          className="bg-cover w-full"
+          className="absolute inset-0 w-full h-full object-cover"
         />
-        <header className="absolute top-[200px] left-[690px] text-center">
+        <div className="relative z-10 flex flex-col items-center justify-center h-full text-center px-4">
           {/* --------- Header --------- */}
-          <h1 className="font-PlayfairD text-[100px] font-normal leading-[96px]">
+          <h1 className="font-PlayfairD text-[40px] sm:text-[60px] lg:text-[100px] font-normal leading-[1.1] text-[#2C2F24]">
             Tinh Hoa <br /> Ẩm Thực Việt
           </h1>
-          <p className="mt-8 font-DM_sans text-xl font-normal">
+          <p className="mt-6 sm:mt-8 font-DM_sans text-base sm:text-xl font-normal text-[#2C2F24]">
             Khám khá ẩm thực ba miền <br /> các món ngon đồng quê.
           </p>
 
           {/* --------- Booking part --------- */}
-          <div className="mt-10 flex gap-4 ml-[100px] text-[#182226] text-base font-DM_sans font-bold">
+          <div className="mt-8 sm:mt-10 flex flex-col sm:flex-row gap-4 text-[#182226] text-base font-DM_sans font-bold">
             <Link to="/book">
               <button className="px-8 py-5 border-2 border-[#2C2F24] rounded-full hover:bg-[#AD343E] hover:text-white hover:border-[#AD343E] transition duration-200">
                 Đặt bàn
@@ -42,7 +42,7 @@ const Homepage = () => {
               </button>
             </Link>
           </div>
-        </header>
+        </div>
       </section>
 
       {/* ================= Manu Browser part ================= */}
