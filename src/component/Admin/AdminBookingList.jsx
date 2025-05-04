@@ -56,7 +56,7 @@ const AdminBookingList = () => {
       return;
     try {
       const token = localStorage.getItem("token");
-      await axios.delete(`${API_BASE_URL}/api/bookings/${bookingId}`, {
+      await axios.delete(`${API_BASE_URL}/api/admin/bookings/${bookingId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setBookings((prev) => prev.filter((b) => b._id !== bookingId));
