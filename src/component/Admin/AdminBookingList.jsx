@@ -33,21 +33,24 @@ const AdminBookingList = () => {
     fetchAllBookings();
   }, []);
 
-  const handleMarkAsPaid = async (bookingId) => {
+  const handleTogglePaidStatus = async (bookingId, currentStatus) => {
     try {
       const token = localStorage.getItem("token");
       await axios.patch(
         `${API_BASE_URL}/api/admin/bookings/${bookingId}/pay`,
-        {},
+        { isPaid: !currentStatus },
         {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
+
       setBookings((prev) =>
-        prev.map((b) => (b._id === bookingId ? { ...b, isPaid: true } : b))
+        prev.map((b) =>
+          b._id === bookingId ? { ...b, isPaid: !currentStatus } : b
+        )
       );
     } catch (err) {
-      console.error("❌ Lỗi cập nhật thanh toán:", err.message);
+      console.error("❌ Lỗi cập nhật trạng thái thanh toán:", err.message);
     }
   };
 
@@ -163,14 +166,20 @@ const AdminBookingList = () => {
             </p>
 
             {/* ==================== Nút thanh toán */}
-            {!booking.isPaid && (
-              <button
-                onClick={() => handleMarkAsPaid(booking._id)}
-                className="mt-3 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
-              >
-                ✅ Đánh dấu đã thanh toán
-              </button>
-            )}
+            <button
+              onClick={() =>
+                handleTogglePaidStatus(booking._id, booking.isPaid)
+              }
+              className={`mt-3 px-4 py-2 rounded text-white ${
+                booking.isPaid
+                  ? "bg-gray-500 hover:bg-gray-600"
+                  : "bg-green-600 hover:bg-green-700"
+              }`}
+            >
+              {booking.isPaid
+                ? "↩️ Đánh dấu chưa thanh toán"
+                : "✅ Đánh dấu đã thanh toán"}
+            </button>
           </div>
         ))
       )}
